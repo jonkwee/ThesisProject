@@ -1,14 +1,33 @@
 from nltk.tokenize import word_tokenize
 from nltk.corpus import stopwords
+from collections import defaultdict
 import nltk
 
 class LanguageProcessingController:
 
-    def __init__(self, text):
-        # Input text is a string
-        self.text = word_tokenize(text)
-        self.filter_stopwords()
-        self.tag_data = self.parts_of_speech_tag()
+    def __init__(self, textlist):
+        # Input text is a list of strings in a list
+        self.textlist = textlist
+        self.text = ""
+        self.count_words = defaultdict(int)
+
+        self.processed = self.process_list_of_text()
+        self.chunked = self.chunking(self.parts_of_speech_tag())
+        #self.tag_data = self.parts_of_speech_tag()
+
+    def change_text(self, text):
+        self.text = text
+
+    def process_list_of_text(self):
+        """Return list of text without stopwords and as tokens"""
+        returnable_array = []
+        for e in self.textlist:
+            self.change_text(word_tokenize(e[0]))
+            self.filter_stopwords()
+            for w in self.text:
+                self.count_words[w] += 1
+            returnable_array.append(self.text)
+        return returnable_array
 
     def filter_stopwords(self):
         """Filter text using default stopwords"""
@@ -18,17 +37,28 @@ class LanguageProcessingController:
 
     def parts_of_speech_tag(self):
         """Label text with parts of speech"""
+        returnable_array = []
         try:
-            tagged = nltk.pos_tag(self.text)
-            return tagged
+            for e in self.processed:
+                tagged = nltk.pos_tag(e)
+                returnable_array.append(tagged)
         except Exception as e:
             print(str(e))
+        finally:
+            return returnable_array
 
-LPC = LanguageProcessingController("There was a dog that use to play games. Blah you now")
-chunkGram = r"""Chunk: {<VB.?>*<NN.?>*}"""
-chunkParser = nltk.RegexpParser(chunkGram)
-chunked = chunkParser.parse(LPC.tag_data)
-chunked.draw()
+    def chunking(self, POSarray):
+        """Chunk text based on parts of speech"""
+        returnable_array = []
+        chunkGram = r"""C: {<VB.?>*<NN.?>*}"""
+        chunkParser = nltk.RegexpParser(chunkGram)
+        for e in POSarray:
+            returnable_array.append(chunkParser.parse(e))
+        return returnable_array
+
+
+# LPC = LanguageProcessingController("There was a dog that use to play games. Blah you now")
+# print(LPC.chunking())
 
 
 # CC	coordinating conjunction
