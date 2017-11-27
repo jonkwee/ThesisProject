@@ -70,9 +70,6 @@ class UserHistoryController:
     def get_most_visited(self, n):
         return self.mainUrlView[:n]
 
-#
-# UHC = UserHistoryController()
-# s = ""
-# for i in UHC.get_recent_key_terms(5):
-#     s += i[0] + " "
-# print(s)
+
+UHC = UserHistoryController()
+print(UHC.get_most_visited(10))

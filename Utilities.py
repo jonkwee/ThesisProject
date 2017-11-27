@@ -1,7 +1,6 @@
 import datetime
 import pandas as pd
 
-
 def date_to_microseconds(n):
     """returns interval of dates in microseconds based on n"""
     past_date = datetime.datetime.now() + datetime.timedelta(-n)

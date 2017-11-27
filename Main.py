@@ -7,10 +7,9 @@ from sklearn.feature_extraction.text import TfidfVectorizer
 from google import google
 import json, requests
 
+
 processed_text = UHC.get_recent_key_terms(2)
-
 LPC = LanguageProcessingController(processed_text)
-
 top_used_words = Utilities.convert_dict_to_series_sort(LPC.count_words).head(10)
 
 
@@ -61,12 +60,12 @@ def get_autosuggest_terms(term):
 def google_search(term):
     result = google.search(term, 1)
     for entry in result:
-        print("URL", entry.link)
-        print("Name", entry.name)
-        print("Desc", entry.description)
+        print("URL:", entry.link)
+        print("Name:", entry.name)
+        print("Desc:", entry.description)
         print()
 
 
 
-auto = get_autosuggest_terms(s[0])
-google_search(auto[0])
+# auto = get_autosuggest_terms(s[0])
+# google_search(auto[0])
