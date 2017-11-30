@@ -62,10 +62,21 @@ def google_search(term):
     for entry in result:
         print("URL:", entry.link)
         print("Name:", entry.name)
-        print("Desc:", entry.description)
+        #print("Desc:", entry.description)
         print()
 
+# s = phrases of main search terms
+for p in s:
+    # get auto suggest based on phrase
+    auto = get_autosuggest_terms(p)
+    # use first 3 autosuggest terms for search
+    count = 0
+    for suggestion in auto:
+        google_search(suggestion)
+        count += 1
+        if count > 3:
+            break
 
-
-# auto = get_autosuggest_terms(s[0])
-# google_search(auto[0])
+#auto = get_autosuggest_terms(s[0])
+#print(auto)
+#google_search(auto[0])

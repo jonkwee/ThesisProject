@@ -72,4 +72,4 @@ class UserHistoryController:
 
 
 UHC = UserHistoryController()
-print(UHC.get_most_visited(10))
+#print(UHC.get_most_visited(10))
